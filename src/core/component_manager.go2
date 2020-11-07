@@ -1,0 +1,47 @@
+package core
+/* import "fmt" */
+
+type SaberComp interface {
+}
+
+type ComponentManager[T] struct {
+  EntityIndices [][]uint16 // 65535 / 100 = 655 + 1 = 656
+  EntityList []*Entity
+  ComponentList []T
+}
+
+func (c *ComponentManager[T]) Next() {
+}
+
+func GetComponent[T any](mng *ComponentManager[T], entity Entity, ) (b T) {
+  pageN := uint16(uint16(entity) / uint16(1000))
+  indexInPage := uint16(uint16(entity) % uint16(66))
+  return mng.ComponentList[mng.EntityIndices[pageN][indexInPage]]
+}
+
+func AddComponent[T any](world *World, entity *Entity, comp T) T {
+    mng := world.Managers[0].(ComponentManager[T])
+      if  len(mng.EntityIndices) <= 0{
+        mng.EntityIndices =  make([][]uint16, 66)
+      }
+
+index := len(mng.EntityList)
+         pageN := uint16(uint16(*entity) / uint16(1000))
+         indexInPage := uint16(uint16(*entity) % uint16(66))
+         mng.EntityList = append(mng.EntityList, entity)
+         /* fmt.Println(pageN) */
+         /* fmt.Println(indexInPage) */
+
+         if (len(mng.EntityIndices[pageN]) > 0) {
+           mng.EntityIndices[pageN][indexInPage] = uint16(index)
+         } else {
+           mng.EntityIndices[pageN] = make([]uint16, 66)
+             mng.EntityIndices[pageN][indexInPage] = uint16(index)
+         }
+
+
+       mng.ComponentList = append(mng.ComponentList , comp)
+         world.Managers[0] = mng
+
+  return comp
+}

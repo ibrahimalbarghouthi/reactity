@@ -1,0 +1,59 @@
+package main
+import  (
+    "core"
+    "time"
+    "fmt"
+    )
+
+type ComponentX struct {
+  Value int
+}
+
+type TestComp struct {
+}
+
+var world core.World
+
+func DoUpdate(w *core.World, dt float64) {
+  mng := w.Managers[0].(core.ComponentManager[ComponentX])
+  for _, ent := range world.Entities {
+    core.GetComponent[ComponentX](&mng, ent)
+  }
+}
+
+func main() {
+  //for each component we have
+  mng := core.ComponentManager[ComponentX] {}
+  world.CreateManager(mng)
+  for i := 0; i < 65000; i++ {
+    ent := world.CreateEntity()
+     core.AddComponent(&world, ent, ComponentX{i})
+  }
+
+  /* fmt.Println(core.GetComponent[ComponentX](&world, 0)) */
+
+  /* GetComponent( */
+/*  */
+  /* fmt.Println(world.Managers[0].(core.ComponentManager[ComponentX]).EntityIndices[0]) */
+  /* fmt.Println(world.Managers[0].(core.ComponentManager[ComponentX]).EntityList) */
+  /* fmt.Println(world.Managers[0].(core.ComponentManager[ComponentX]).ComponentList) */
+  start := time.Now()
+  t := time.Now()
+  for true {
+    start = time.Now()
+    elapsed := start.Sub(t)
+    dt := float64(start.Sub(t)) / float64(time.Second)
+    fmt.Println(elapsed);
+    /* if (elapsed >= 1000 / 1000) { */
+    DoUpdate(&world, dt)
+    DoUpdate(&world, dt)
+    DoUpdate(&world, dt)
+    DoUpdate(&world, dt)
+    /* } */
+      t = start
+  }
+  /* f := core.ComponentManager[ComponentX] {} */
+  /* var b core.Entity = 20 */
+  /* c := core.GetComponent[ComponentX](b) */
+  /* fmt.Println(c.Value) */
+}

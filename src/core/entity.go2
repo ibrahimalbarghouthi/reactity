@@ -1,0 +1,11 @@
+package core
+
+type Entity uint16
+// type Entities []uint16
+
+
+
+
+
+func RemoveComponent[T any](world World, entity Entity, comp T) {
+}

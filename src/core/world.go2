@@ -1,0 +1,110 @@
+package core
+
+type World struct {
+  Entities []Entity
+  Managers []SaberComp
+  /* Systems []*SystemArch */
+  // SystemsTypes [][]uint64
+}
+
+/* func (world *World) Init(ref []uint64) { */
+/*   world.collections = make([]Collection, len(ref)) */
+/* } */
+/*  */
+/* func (world *World) GetEntity (id uint64) (Entity, error) { */
+/*   for _, entity := range world.Entities { */
+/*     if (id == entity.Id) { */
+/*       return entity, nil */
+/*     } */
+/*   } */
+/*   return Entity{}, nil */
+/* } */
+/*  */
+
+func (world *World) CreateEntity() *Entity {
+  ent := Entity(len(world.Entities) + 1)
+  world.Entities = append(world.Entities, ent)
+  return &ent
+}
+
+func (world *World) CreateManager(manager SaberComp) {
+  world.Managers = append(world.Managers, manager)
+}
+
+
+/*  */
+/* func (world *World) AddSystem(s System, types []uint64) { */
+/*   sysArch := SystemArch {SubSystem: s} */
+/*   world.Systems = append(world.Systems, &sysArch) */
+/*   // world.SystemsTypes = append(world.SystemsTypes, types) */
+/*   sysArch.AddEntities(world) */
+/*   s.SystemStart() */
+/* } */
+/*  */
+/* func (world *World) OnUpdate(dt float64) { */
+/*   for i := 0; i < len(world.Systems); i++ { */
+/*     if (world.Systems[i].AllEntities) { */
+/*       for _, ent := range world.Entities { */
+/*         world.Systems[i].SubSystem.SystemUpdate(&ent, dt) */
+/*       } */
+/*     } else { */
+/*       for _, ent := range world.Systems[i].Entities { */
+/*         world.Systems[i].SubSystem.SystemUpdate(&ent, dt) */
+/*       } */
+/*     } */
+/*   } */
+/* } */
+/*  */
+/*  */
+/* type Entities []uint16 */
+/*  */
+/* type sliceIterator struct { */
+/*   slice *Entities */
+/*   index int */
+/* } */
+/*  */
+/* func (i *sliceIterator) Next() uint16 { */
+/*   i.index++ */
+/*   return (*i.slice)[i.index - 1] */
+/* } */
+/*  */
+/* func (i *sliceIterator) HasNext() bool { */
+/*   return (*i).index < len(*i.slice) */
+/* } */
+/*  */
+/* func (world *World) OnEach(s System, types []uint64, dt float64)  { */
+/*   // if len(types) > 0 { */
+/*   //   startWith := types[0] */
+/*   //   for j := 0; j < len(types); j++ { */
+/*   //     if world.collections[types[j]].Count < world.collections[startWith].Count { */
+/*   //       startWith = types[j] */
+/*   //     } */
+/*   //   } */
+/*   // */
+/*   //   types[startWith] = types[len(types)-1] */
+/*   //   types = types[:len(types)-1] */
+/*   // */
+/*   //   for _, ent := range world.collections[startWith].Components { */
+/*   //     if IntersectionCount(ent.ComponentsTypes, types){ */
+/*   //       s.SystemUpdate(ent, dt) */
+/*   //     } */
+/*   //   } */
+/*   // } else { */
+/*   //   for _, ent  := range world.Entities { */
+/*   //     s.SystemUpdate(ent, dt) */
+/*   //   } */
+/*   // } */
+/* } */
+/*  */
+/* func IntersectionCount(a []uint64, b []uint64) (filter bool) { */
+/*   for j := 0; j < len(b); j++ { */
+/*     filter = false */
+/*     for i := 0; i < len(a); i++ { */
+/*       if a[i] == b[j] { */
+/*         filter = true */
+/*       } */
+/*     } */
+/*   } */
+/*  */
+/*   return filter */
+/* } */
